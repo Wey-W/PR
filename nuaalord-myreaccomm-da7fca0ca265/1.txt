@@ -1,0 +1,19 @@
+# flights = []
+# a = ''
+# b = 'haha'
+
+# flights.append(dict(flight=a, cabin=b))
+
+# c = 'flt_1'
+# d = 'Y'
+# flights.append(dict(flight=c, cabin=d))
+
+
+# print(flights[0])
+
+a = (c_c[j] - p_allPNRs[pnr_ids[p - 1]].average_fare)   -130 
+    * p_allPNRs[pnr_ids[p - 1]].num_pax  1 / 2 / 3 / 4 
+
+    * df[df[0] == pnr_ids[p - 1]].iloc[0, -1] 
+
+    * x[p, i, j] 

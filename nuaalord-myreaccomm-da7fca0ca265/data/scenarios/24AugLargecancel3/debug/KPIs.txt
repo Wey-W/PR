@@ -1,0 +1,45 @@
+Scenario                       C:\Users\sg0222282\Documents\git\reaccomm_tools\reaccomm_rt\scenarios\B6\24AugLargecancel3/
+Version                        5.1.0
+Time of execution              Wed Oct 04 12:25:52 2017
+Disrupted flights              78
+Booked PNRs                    3033
+Disrupted PNRs                 3025
+Booked PAX                     8379
+Disrupted PAX                  8355
+O&Ds                           62
+Original flights               2237
+Avg load factor                0.73142
+Filtered flights               932
+Total gen paths                2857
+Recaptured PNRs                999
+Recaptured PAX                 1835
+On time PNRs                   5
+Mean delay                     27.655
+PAX Delay<1hr                  7
+PAX Delay<2hr                  20
+PAX Delay<3hr                  14
+PAX Delay<4hr                  50
+PAX Delay>=4hr                 1744
+Math model obj                 -1.52309e+011
+Unique illegal paths           2063
+PNR-Path legality false        60006
+Stranded PNRs                  2026
+Stranded PAX                   6520
+Total used flights             576
+Scenic routes                  19
+Upgraded PNRs                  0
+Upgraded PAX                   0
+Downgraded PNRs                0
+Downgraded PAX                 0
+Overnights                     0
+Itinerary length ratio         1.13379
+New flying time(hours)         6129.47
+Original flying time(hours)    5831.75
+WhatIf                         0
+Upgrade allowed?               0
+Downgrade allowed?             1
+Overnight connections allowed? 0
+Max memory used(MB)            735
+Math run time(cpu)             416.226
+Total run time(cpu)            418.457
+Total run time(clock)          160.846

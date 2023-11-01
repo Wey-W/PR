@@ -1,0 +1,61 @@
+
+执行main.py文件
+一、	调用Model类，自动执行model.py文件中的__init__(self)，得到在当前路径下的四个文件的路径；
+
+二、	调用Model类中的read_input_data函数：
+    1.执行Flight.read_flight_data(self.schedule_file)语句
+         调用flight.py文件中的read_flight_data(_file)函数，传入文件为schedule.dat，函数执行后对文件逐行遍历，将筛选后的信息以字典形
+         式传入Flight类中，在Flight类中执行__init__(self)，得到allFlights字典，键值对为：flt_id-schedule.dat主要信息；得到numFlights
+         数值，数值大小为schedule.dat中的数据行数，即航班数量；
+    2.执行Flight.read_availability_data(self.avail_file)语句
+         调用flight.py文件中的read_availability_data(_file)函数，传入文件为availability.dat，对文件逐行遍历，对每一行内容执行
+         Flight.get_flight_by_id(flt_id)函数，函数主体是在allFlights字典中查找与传入flt_id相同的flt_id并将其返回，进入下一次循环
+         若不存在相同flt_id则返回None，继续执行函数主体内的后续代码，读取信息后执行set_availability(self, cabin, a)函数，传入数据为
+         availability.dat文件的第二列即航班舱位代号与对应舱位的剩余可载客量，函数执行结果是将传入数据存储在availability字典中，键值对为：
+         Cabin[J/Y/F]-剩余可载客量；
+    3.执行PNR.read_pnr_data(self.pax_file)语句
+         调用pnr.py文件中的read_pnr_data(_file)函数，传入文件为passengers.dat，逐行遍历文件，筛选出需要的信息，传入到PNR类的__init__
+         (self)方法中，最终结果是得到allPNRs字典，键值对为：pnr_id-passengers.dat主要信息；得到numPNRs数值，大小为passengers.dat中
+         的数据行数，即乘客数量；
+    4.执行PNR.read_pnr_flights_data(self.itinerary_file)语句
+         调用pnr.py文件中的read_pnr_flights_data(cls, _file)函数，传入文件为pnrFlights.dat，逐行遍历文件，在allPNRs字典中查找
+         与pnrFlights.dat文件中每行的第一列相同的pnr_id并赋值给pnr，在allFlights字典中查找与pnrFlights.dat文件中每行的第二列相同的
+         flt_id并赋值给flight；
+         当pnr与flight的值均为None时，直接跳转到27行，否则执行后续操作，储存每一行乘客组的舱位情况，判断是否完成登记，将两个字典值：flight-flt_id;
+         cabin-Cabin['Y']储存在flights列表中；将已完成等级的乘客组对应的flt_id添加到boarded_flights列表中；
+
+         执行get_last_flight_for_passengers()函数，逐行遍历allPNRs字典中的值，从allFlights字典中以flt_id为索引找到乘客组的起始机场与行
+         程的出发时间，
+
+         存在问题：前一个if语句完成后，flt_id同时是_flt与prev_flt的值，后续的判断条件再次恒成立？再次进行相同变量的重复赋值原因
+三、	调用Model类中的review_passengers函数：
+    主要作用是确定乘客对应的延误类型，主要包括未延误、航班取消与时间连接有差三种
+    初始状态均为NoDisruption
+    判断其flt_id对应的status，如果False，则延误类型变更为FlightCancel
+    否则
+    判断prev_flt是否非None（？）
+       如果存在prev_flt，判断两趟航班的时间差是否小于1h，条件成立，则延误类型变更为TimeMissConnect
+
+
+四、 调用Model类中的show_info函数：
+     调用write.py文件中的show_passenger_itineraries()函数，结果为一个乘客信息表格的展示，表格内容包括：
+     PNR		     pnr_id，从allPNRs字典中获取
+     First           first_flt.flt_number，从allFlights字典中以flt_id为索引查询得到的flt_number值，航班对应的数量
+     (arp,           first_flt.sch_dep_airport，从allFlights字典中以flt_id为索引查询得到的sch_dep_airport值，原行程的出发机场
+     status)	     first_flt.depCode，从allFlights字典中以flt_id为索引查询得到的depCode值，出发机场的对应号码
+     Last            last_flt.flt_number，从allFlights字典中以last_flt（flt_id）为索引查询得到的flt_number值，航班对应的数量
+     (arp,           last_flt.sch_arr_airport，从allFlights字典中以last_flt（flt_id）为索引查询得到的sch_arr_airport值，原行程的到达机场
+     status)         last_flt.arrCode，从allFlights字典中以last_flt（flt_id）为索引查询得到的arrCode值，到达机场的对应号码
+     Disruption      _pnr.disruption，
+     S-              _pnr.start_airport，从allPNRs字典中在每一行对应的start_airport值，起始机场（实际也是在allFlights字典中以flt_id为索引查找的原出发机场）
+     D               _pnr.end_airport，从allPNRs字典中在每一行对应的end_airport值，到达机场（实际也是在allFlights字典中以flt_id为索引查找的原到达机场）
+
+五、 调用Model类中的itinerary_generation函数：
+    函数主要作用是用于判断allFlights字典中的航班信息与allPNRs字典中的航班信息是否满足部分条件：
+    航班的实际出发机场与乘客的起始机场是否一致；
+    航班的实际到达机场与乘客的终点机场是否一致；
+    航班的出发时间是否早于乘客的原定出发时间；
+    根据条件是否满足选择性的将该航班的信息添加到candidate_itineraries列表中，作为备选航班
+
+
+

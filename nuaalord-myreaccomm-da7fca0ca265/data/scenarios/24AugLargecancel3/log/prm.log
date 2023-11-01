@@ -1,0 +1,12 @@
+Starting PRM... Version: 5.1.0
+Optimization run started: Wed Oct 04 12:23:11 2017
+
+Git commit ID and Compiled Date: 780c4a1-dirty @ ACORD-3692 2017-10-03 21:30:28Z
+
+No traffic restriction input : trafficRestrictions.dat
+WARNING An invalid original connection between the flights; As per MCT is 999
+WARNING An invalid original connection between the flights; As per MCT is 999
+Total run time (clock) for the successful PRM is: 160.846 seconds: 
+Total run time (cpu) for the successful PRM is: 418.457 seconds: 
+Optimization run finished: Wed Oct 04 12:25:52 2017
+
